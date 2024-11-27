@@ -280,7 +280,7 @@ GameObject:
   - component: {fileID: 144523781}
   - component: {fileID: 144523780}
   - component: {fileID: 144523779}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +385,7 @@ GameObject:
   - component: {fileID: 160744318}
   - component: {fileID: 160744317}
   - component: {fileID: 160744316}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,7 +489,7 @@ GameObject:
   - component: {fileID: 165891558}
   - component: {fileID: 165891561}
   - component: {fileID: 165891559}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -573,7 +573,7 @@ GameObject:
   - component: {fileID: 177197015}
   - component: {fileID: 177197014}
   - component: {fileID: 177197013}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -835,7 +835,7 @@ GameObject:
   - component: {fileID: 803110787}
   - component: {fileID: 803110790}
   - component: {fileID: 803110788}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -921,7 +921,7 @@ GameObject:
   - component: {fileID: 843619271}
   - component: {fileID: 843619277}
   - component: {fileID: 843619278}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Leader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1015,7 +1015,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 803110787}
@@ -1067,7 +1067,7 @@ GameObject:
   - component: {fileID: 889942251}
   - component: {fileID: 889942250}
   - component: {fileID: 889942249}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AI Bot 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1218,7 +1218,7 @@ GameObject:
   - component: {fileID: 1027793930}
   - component: {fileID: 1027793929}
   - component: {fileID: 1027793928}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1323,7 +1323,7 @@ GameObject:
   - component: {fileID: 1091518595}
   - component: {fileID: 1091518594}
   - component: {fileID: 1091518593}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1428,7 +1428,7 @@ GameObject:
   - component: {fileID: 1265498096}
   - component: {fileID: 1265498095}
   - component: {fileID: 1265498094}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1533,7 +1533,7 @@ GameObject:
   - component: {fileID: 1323459655}
   - component: {fileID: 1323459654}
   - component: {fileID: 1323459653}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1640,7 +1640,7 @@ GameObject:
   - component: {fileID: 1515915451}
   - component: {fileID: 1515915450}
   - component: {fileID: 1515915449}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AI Bot 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1791,7 +1791,7 @@ GameObject:
   - component: {fileID: 1526107565}
   - component: {fileID: 1526107564}
   - component: {fileID: 1526107563}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1898,7 +1898,7 @@ GameObject:
   - component: {fileID: 1575197692}
   - component: {fileID: 1575197691}
   - component: {fileID: 1575197690}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AI Bot 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2051,7 +2051,7 @@ GameObject:
   - component: {fileID: 1661375054}
   - component: {fileID: 1661375053}
   - component: {fileID: 1661375052}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AI Bot 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2202,7 +2202,7 @@ GameObject:
   - component: {fileID: 2013916509}
   - component: {fileID: 2013916508}
   - component: {fileID: 2013916507}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2296,6 +2296,89 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2118935073
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 427784594012826228, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_Name
+      value: Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261875906191834281, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261875906191834281, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261875906191834281, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261875906191834281, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -12.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261875906191834281, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261875906191834281, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261875906191834281, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261875906191834281, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261875906191834281, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261875906191834281, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261875906191834281, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261875906191834281, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261875906191834281, guid: 862ee89a18cbc0d4e895ee68a854ec6a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 862ee89a18cbc0d4e895ee68a854ec6a, type: 3}
 --- !u!1 &2141882297
 GameObject:
   m_ObjectHideFlags: 0
@@ -2305,7 +2388,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2141882298}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2341,3 +2424,4 @@ SceneRoots:
   - {fileID: 889942254}
   - {fileID: 2141882298}
   - {fileID: 20255967}
+  - {fileID: 2118935073}

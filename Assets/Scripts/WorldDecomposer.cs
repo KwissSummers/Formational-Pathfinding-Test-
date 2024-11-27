@@ -7,7 +7,7 @@ public class WorldDecomposer : MonoBehaviour
     private int[,] worldData;
     private int rows;
     private int cols;
-    private int nodeSize = 5;
+    private int nodeSize = 2;
     public bool isInitialized = false;
 
     public int[,] GetWorldData()
@@ -27,9 +27,9 @@ public class WorldDecomposer : MonoBehaviour
 
     private void Start()
     {
-        int terrainWidth = 200;
-        int terrainLength = 200;
-        int nodeSize = 5;
+        int terrainWidth = 100;
+        int terrainLength = 100;
+        int nodeSize = 2;
 
         rows = terrainWidth / nodeSize;
         cols = terrainLength / nodeSize;
@@ -39,11 +39,20 @@ public class WorldDecomposer : MonoBehaviour
         isInitialized = true;
     }
 
+    private void Update()
+    {
+        if (isInitialized == false)
+        {
+            return;
+        }
+        DecomposeWorld();
+    }
+
     private void DecomposeWorld()
     {
         // Add your world decomposition logic here
-        float startX = 0;
-        float startZ = 0;
+        float startX = -50;
+        float startZ = -50;
 
         float nodeCenterOffset = nodeSize / 2f;
 
@@ -62,11 +71,10 @@ public class WorldDecomposer : MonoBehaviour
 
 
                 // Does our raycast hit anything at this point in the map
-
                 RaycastHit hit;
 
                 // Bit shift the index of the layer (8) to get a bit mask
-                int layerMask = 1 << 8;
+                int layerMask = 1 << 8 ^ 1 << 7;
 
                 // This would cast rays only against colliders in layer 8.
                 // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
@@ -76,14 +84,14 @@ public class WorldDecomposer : MonoBehaviour
                 if (Physics.Raycast(startPos, Vector3.down, out hit, Mathf.Infinity, layerMask))
                 {
 
-                    print("Hit something at row: " + row + " col: " + col);
-                    Debug.DrawRay(startPos, Vector3.down * 20, Color.red, 50000);
+                    //print("Hit something at row: " + row + " col: " + col);
+                    Debug.DrawRay(startPos, Vector3.down * 20, Color.red, 0.5f);
                     worldData[row, col] = 1;
 
                 }
                 else
                 {
-                    Debug.DrawRay(startPos, Vector3.down * 20, Color.green, 50000);
+                    Debug.DrawRay(startPos, Vector3.down * 20, Color.green, 0.5f);
                     worldData[row, col] = 0;
                 }
             }

@@ -11,7 +11,7 @@ public class AStarPathfinding : MonoBehaviour
 
     // Grid properties (from WorldDecomposer)
     private int[,] worldData;
-    private int nodeSize = 5; // Should match WorldDecomposer
+    private int nodeSize = 2; // Should match WorldDecomposer
     private int rows, cols;
 
     private void Start()
@@ -91,7 +91,7 @@ public class AStarPathfinding : MonoBehaviour
             }
         }
 
-        Debug.LogError("No path found!"); //error1
+        Debug.LogError("No path found!");
         return null; // No path found
     }
 
@@ -190,7 +190,7 @@ public class AStarPathfinding : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 target.position = hit.point;
-                Debug.Log("Mouse click position: " + hit.point);
+                print("Mouse click position: " + hit.point);
 
                 // Find and follow the path using A* algorithm
                 Vector3 startPos = character.position;
