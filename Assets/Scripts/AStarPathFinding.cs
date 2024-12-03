@@ -5,14 +5,17 @@ using UnityEngine;
 public class AStarPathfinding : MonoBehaviour
 {
     // References
-    public Transform character; // Leader
+    public Transform character; // Leader character to move
     public Transform target;    // Target position
     public float speed = 5f;    // Movement speed
 
     // Grid properties (from WorldDecomposer)
-    private int[,] worldData;
-    private int nodeSize = 2; // Should match WorldDecomposer
-    private int rows, cols;
+    private int[,] worldData; // Grid representation of the world
+    private int nodeSize = 2; // Node size for grid cells
+    private int rows, cols;   // Dimensions of the grid
+    private Vector3 gridOrigin = new Vector3(-50, 0, -50); // World origin offset for grid alignment
+
+    private List<Vector3> currentPath = null; // Stores the current path for visualization
 
     private void Start()
     {
@@ -22,35 +25,59 @@ public class AStarPathfinding : MonoBehaviour
 
     private IEnumerator Initialize()
     {
+        // Wait for the WorldDecomposer to be initialized
         WorldDecomposer worldDecomposer = FindObjectOfType<WorldDecomposer>();
         while (worldDecomposer == null || !worldDecomposer.isInitialized)
         {
             yield return null; // Wait until WorldDecomposer is ready
         }
 
+        // Fetch the grid data and dimensions
         worldData = worldDecomposer.GetWorldData();
         rows = worldDecomposer.GetRows();
         cols = worldDecomposer.GetCols();
         Debug.Log("WorldDecomposer Initialized. Grid Size: " + rows + "x" + cols);
     }
 
+    // Convert a world position to grid indices
+    private Node PositionToNode(Vector3 position)
+    {
+        int row = Mathf.FloorToInt((position.z - gridOrigin.z) / nodeSize);
+        int col = Mathf.FloorToInt((position.x - gridOrigin.x) / nodeSize);
+        return new Node(row, col);
+    }
+
+    // Check if a node is walkable (not an obstacle)
+    private bool IsWalkable(Node node)
+    {
+        return node.row >= 0 && node.row < rows &&
+               node.col >= 0 && node.col < cols &&
+               worldData[node.row, node.col] == 0;
+    }
+
     // A* Pathfinding logic
     private List<Vector3> FindPath(Vector3 startPos, Vector3 goalPos)
     {
-        // Convert positions to grid indices
-        Node startNode = new Node((int)(startPos.x / nodeSize), (int)(startPos.z / nodeSize));
-        Node goalNode = new Node((int)(goalPos.x / nodeSize), (int)(goalPos.z / nodeSize));
+        // Convert world positions to grid indices
+        Node startNode = PositionToNode(startPos);
+        Node goalNode = PositionToNode(goalPos);
 
-        Debug.Log("Start Node: " + startNode.row + ", " + startNode.col);
-        Debug.Log("Goal Node: " + goalNode.row + ", " + goalNode.col);
+        // Validate start and goal nodes
+        if (!IsWalkable(startNode) || !IsWalkable(goalNode))
+        {
+            Debug.LogError("Start or Goal node is not walkable!");
+            return null;
+        }
 
-        List<Node> openList = new List<Node>();
-        HashSet<Node> closedList = new HashSet<Node>();
+        List<Node> openList = new List<Node>(); // Nodes to evaluate
+        HashSet<Node> closedList = new HashSet<Node>(); // Nodes already evaluated
         openList.Add(startNode);
 
         while (openList.Count > 0)
         {
             Node currentNode = openList[0];
+
+            // Find the node with the lowest f-score
             foreach (Node node in openList)
             {
                 if (node.f < currentNode.f || (node.f == currentNode.f && node.h < currentNode.h))
@@ -59,20 +86,21 @@ public class AStarPathfinding : MonoBehaviour
                 }
             }
 
-            openList.Remove(currentNode);
-            closedList.Add(currentNode);
+            openList.Remove(currentNode); // Remove the current node from open list
+            closedList.Add(currentNode); // Add it to the closed list
 
+            // If the goal is reached, reconstruct the path
             if (currentNode.row == goalNode.row && currentNode.col == goalNode.col)
             {
-                Debug.Log("Goal reached! Reconstructing path.");
                 return ReconstructPath(currentNode);
             }
 
+            // Get valid neighbors of the current node
             foreach (Node neighbor in GetNeighbors(currentNode))
             {
-                if (closedList.Contains(neighbor) || worldData[neighbor.row, neighbor.col] == 1)
+                if (closedList.Contains(neighbor) || !IsWalkable(neighbor))
                 {
-                    continue;
+                    continue; // Skip invalid neighbors
                 }
 
                 float tentativeG = currentNode.g + 1; // Distance between nodes is 1
@@ -95,6 +123,7 @@ public class AStarPathfinding : MonoBehaviour
         return null; // No path found
     }
 
+    // Get valid neighbors for a given node
     private List<Node> GetNeighbors(Node node)
     {
         List<Node> neighbors = new List<Node>();
@@ -106,47 +135,36 @@ public class AStarPathfinding : MonoBehaviour
             int newRow = node.row + rowOffsets[i];
             int newCol = node.col + colOffsets[i];
 
-            // Ensure the neighbor is within bounds and walkable
             if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols)
             {
-                if (worldData[newRow, newCol] == 0)  // Make sure it's not an obstacle
-                {
-                    neighbors.Add(new Node(newRow, newCol));
-                }
+                neighbors.Add(new Node(newRow, newCol));
             }
-        }
-
-        // Debug the neighbors to check which are added
-        Debug.Log("Neighbors of (" + node.row + ", " + node.col + "): ");
-        foreach (var neighbor in neighbors)
-        {
-            Debug.Log("  Neighbor: (" + neighbor.row + ", " + neighbor.col + ")");
         }
 
         return neighbors;
     }
 
+    // Calculate Manhattan distance heuristic
     private float GetHeuristic(Node a, Node b)
     {
-        return Mathf.Abs(a.row - b.row) + Mathf.Abs(a.col - b.col); // Manhattan distance
+        return Mathf.Abs(a.row - b.row) + Mathf.Abs(a.col - b.col);
     }
 
+    // Reconstruct the path from the goal node
     private List<Vector3> ReconstructPath(Node node)
     {
         List<Vector3> path = new List<Vector3>();
         while (node != null)
         {
-            path.Add(new Vector3(node.row * nodeSize, 0, node.col * nodeSize));
+            path.Add(new Vector3(
+                node.col * nodeSize + gridOrigin.x,
+                0,
+                node.row * nodeSize + gridOrigin.z
+            ));
             node = node.parent;
         }
         path.Reverse();
-
-        // Debug the reconstructed path
-        foreach (var point in path)
-        {
-            Debug.Log("Reconstructed path point: " + point);
-        }
-
+        currentPath = path; // Store the path for visualization
         return path;
     }
 
@@ -172,8 +190,6 @@ public class AStarPathfinding : MonoBehaviour
 
                 yield return null;
             }
-
-            Debug.Log("Arrived at path point: " + point);
         }
 
         Debug.Log("Path completed!");
@@ -181,33 +197,56 @@ public class AStarPathfinding : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // Left click to move
+        if (Input.GetMouseButtonDown(0)) // Left click to set target
         {
-            // Get mouse position and translate to world position
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                target.position = hit.point;
-                print("Mouse click position: " + hit.point);
+                Vector3 alignedTarget = new Vector3(
+                    Mathf.Floor(hit.point.x / nodeSize) * nodeSize + nodeSize / 2f,
+                    hit.point.y,
+                    Mathf.Floor(hit.point.z / nodeSize) * nodeSize + nodeSize / 2f
+                );
+                target.position = alignedTarget;
 
-                // Find and follow the path using A* algorithm
-                Vector3 startPos = character.position;
-                Vector3 goalPos = hit.point;
-
-                List<Vector3> path = FindPath(startPos, goalPos);
-
-                if (path != null && path.Count > 0)
+                List<Vector3> path = FindPath(character.position, alignedTarget);
+                if (path != null)
                 {
                     StopAllCoroutines();
-                    StartCoroutine(MoveAlongPath(path)); // Start moving along the calculated path
-                    Debug.Log("Starting pathfinding...");
+                    StartCoroutine(MoveAlongPath(path));
                 }
-                else
+            }
+        }
+    }
+
+    // Visualize the grid and path using Gizmos
+    private void OnDrawGizmos()
+    {
+        if (worldData != null)
+        {
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
                 {
-                    Debug.LogError("No path found!"); //error2
+                    Vector3 cellCenter = new Vector3(
+                        col * nodeSize + gridOrigin.x,
+                        0,
+                        row * nodeSize + gridOrigin.z
+                    );
+
+                    Gizmos.color = worldData[row, col] == 1 ? Color.red : Color.green;
+                    Gizmos.DrawWireCube(cellCenter, Vector3.one * nodeSize);
                 }
+            }
+        }
+
+        // Draw the path
+        if (currentPath != null)
+        {
+            Gizmos.color = Color.blue;
+            for (int i = 0; i < currentPath.Count - 1; i++)
+            {
+                Gizmos.DrawLine(currentPath[i], currentPath[i + 1]);
             }
         }
     }
@@ -223,10 +262,6 @@ public class AStarPathfinding : MonoBehaviour
         {
             this.row = row;
             this.col = col;
-            this.g = 0;
-            this.h = 0;
-            this.f = 0;
-            this.parent = null;
         }
     }
 }
